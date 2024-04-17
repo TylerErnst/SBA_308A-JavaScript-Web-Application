@@ -44,6 +44,8 @@ let apiSelected = 'dog';
 // }
 
 Api.setApi(apiSelected);
+let breedList;
+let temperamentList;
 
 /**
  * 1. Create an async function "initialLoad" that does the following:
@@ -61,25 +63,58 @@ Api.setApi(apiSelected);
 //Temperments
 
 
-async function initialLoad() {
-  clearOptions(breedSelect);
+async function initialLoad(breeds) {
   
-  let breeds = await Api.getBreeds();
-
+  breeds = await Api.getBreeds();
+  temperamentList = getTemperaments (breeds);
+  
   console.log(breeds)
+  
+  clearOptions(breedSelect);
 
-  breeds.forEach((breed) => {
-    const opt = document.createElement("option");
-    opt.value = breed.id;
-    opt.textContent = breed.name;
+  //filter dropdown
 
-    breedSelect.appendChild(opt);
-  });
+  loadDropdown(getBreedNames(breeds));
+
 
   Carousel.prepareCarousel()
 }
 
-initialLoad();
+function getBreedNames(breeds){
+  const list = [];
+  breeds.forEach((breed) => {
+    let opt = {};
+    opt.value = breed.id;
+    opt.textContent = breed.name;
+
+    list.push(opt);
+  });
+  return list;
+}
+
+function getTemperaments (breeds) {
+  let list = [];
+  breeds.forEach((breed) => {
+    if (breed.temperament){
+      const myArray = breed.temperament.split(", ")
+      list.push(myArray);
+    }
+  });
+  list = list.flat();
+  list = removeArrayDuplicates(list);
+  return list;
+}
+
+function loadDropdown (list){
+  list.forEach((item) => {
+    const opt = document.createElement("option");
+    opt.value = item.value;
+    opt.textContent = item.textContent;
+
+    breedSelect.appendChild(opt);
+  });
+}
+
 
 function clearOptions(selectElement) {
   let L = selectElement.options.length - 1;
@@ -88,6 +123,20 @@ function clearOptions(selectElement) {
   }
 }
 
+function removeArrayDuplicates(array) {
+  for (let i = 0; i < array.length; i++){
+    array[i] = array[i].toLowerCase();
+    let string = array[i].charAt(0).toUpperCase() + array[i].slice(1);
+    array[i] = string;
+  }
+  return array.sort().filter(function(item, pos, ary) {
+      return !pos || item != ary[pos - 1];
+  });
+}
+
+
+
+initialLoad(breedList);
 
 /**
  * 2. Create an event handler for breedSelect that does the following:
@@ -325,6 +374,6 @@ speciesSelect.addEventListener('click', ({ target }) => { // handler fires on ro
     let species = target.id;
     console.log('Filter by: ' + species);
     apiSelected = Api.setApi(species);
-    initialLoad();
+    initialLoad(breedList);
   }
 });
