@@ -242,6 +242,7 @@ temperamentSelect.addEventListener('change', (event) => {
     console.log(filteredList)
     clearOptions(breedSelect);
     loadBreedDropdown(getBreedNames(filteredList));
+    Carousel.prepareCarousel();
   }else{
     console.log("empty")
   }
