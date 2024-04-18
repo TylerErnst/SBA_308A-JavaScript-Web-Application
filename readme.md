@@ -1,3 +1,3 @@
 Added more funtionality to previous lab:
-	Can select dogs or cats
-	can filter by temperament (WIP)
+<br>Can select dogs or cats
+<br>Can filter by temperament (WIP)
