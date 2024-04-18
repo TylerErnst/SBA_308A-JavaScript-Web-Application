@@ -219,7 +219,7 @@ function filterBreeds (breeds, filter) {
       temperaments.push(myArray);
       // console.log(temperaments)
       for (let i = 0; i < temperaments[0].length; i++){
-        console.log(i)
+        // console.log(i)
         let currentTemperament = temperaments[0][i].toLowerCase();
         // console.log(currentTemperament)
         // console.log(currentTemperament == filter)
