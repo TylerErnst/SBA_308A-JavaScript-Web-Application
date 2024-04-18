@@ -48,8 +48,7 @@ let apiSelected = 'dog';
 // }
 
 Api.setApi(apiSelected);
-let breedList = await Api.getBreeds();
-let temperamentList;
+var breedList = await Api.getBreeds();
 
 /**
  * 1. Create an async function "initialLoad" that does the following:
@@ -68,11 +67,13 @@ let temperamentList;
 
 
 async function initialLoad(breeds) {
-  
+  breedList = await Api.getBreeds();
+  breeds = breedList
   console.log(breeds)
-  
+
+  clearOptions(temperamentSelect);
   clearOptions(breedSelect);
-  //filter dropdown
+  checkFilter()
 
   loadBreedDropdown(getBreedNames(breeds));
   console.log('dropdown', breedSelect)
@@ -387,7 +388,9 @@ speciesSelect.addEventListener('click', ({ target }) => { // handler fires on ro
   }
 });
 
-filterSelect.addEventListener('click', (event) => {
+filterSelect.addEventListener('click', checkFilter); 
+
+function checkFilter(){
   const buttonNone = document.getElementById("none");
   const buttonTemperament = document.getElementById("temperament");
   if (buttonNone.checked){
@@ -404,7 +407,7 @@ filterSelect.addEventListener('click', (event) => {
     console.log(temperamentSelect);
     // Add filter function
   }
-})
+}
 
 temperamentSelect.addEventListener('change', (event) => {
   if (temperamentSelect.childNodes){
