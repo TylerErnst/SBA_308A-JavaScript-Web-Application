@@ -71,13 +71,12 @@ async function initialLoad(breeds) {
   breeds = breedList
   console.log(breeds)
 
-  clearOptions(temperamentSelect);
-  clearOptions(breedSelect);
-  checkFilter()
-
+  
+  
   loadBreedDropdown(getBreedNames(breeds));
   console.log('dropdown', breedSelect)
-
+  
+  checkFilter()
   Carousel.prepareCarousel()
 }
 
@@ -106,7 +105,19 @@ function getTemperaments (breeds) {
   return list;
 }
 
+function removeArrayDuplicates(array) {
+  for (let i = 0; i < array.length; i++){
+    array[i] = array[i].toLowerCase();
+    let string = array[i].charAt(0).toUpperCase() + array[i].slice(1);
+    array[i] = string;
+  }
+  return array.sort().filter(function(item, pos, ary) {
+      return !pos || item != ary[pos - 1];
+  });
+}
+
 function loadBreedDropdown (list){
+  clearOptions(breedSelect);
   list.forEach((item) => {
     const opt = document.createElement("option");
     opt.value = item.value;
@@ -117,6 +128,7 @@ function loadBreedDropdown (list){
 }
 
 function loadTemperamentDropdown (list){
+  clearOptions(temperamentSelect);
   for (let i = 0; i < list.length; i++){
     const opt = document.createElement("option");
     opt.textContent = list[i];
@@ -133,16 +145,7 @@ function clearOptions(selectElement) {
   }
 }
 
-function removeArrayDuplicates(array) {
-  for (let i = 0; i < array.length; i++){
-    array[i] = array[i].toLowerCase();
-    let string = array[i].charAt(0).toUpperCase() + array[i].slice(1);
-    array[i] = string;
-  }
-  return array.sort().filter(function(item, pos, ary) {
-      return !pos || item != ary[pos - 1];
-  });
-}
+
 
 
 
