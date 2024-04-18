@@ -3,4 +3,4 @@ This program allows the user to select either cat or dog breed and get informati
 
 Added more funtionality to previous lab:
 <br>Can select dogs or cats
-<br>Can filter by temperament (WIP)
+<br>Can filter by temperament
