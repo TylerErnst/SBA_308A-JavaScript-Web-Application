@@ -87,6 +87,9 @@ function loadBreedDropdown (list){
 
 function loadTemperamentDropdown (list){
   clearOptions(temperamentSelect);
+  const blank = document.createElement("option");
+  blank.textContent = "";
+  temperamentSelect.appendChild(blank)
   for (let i = 0; i < list.length; i++){
     const opt = document.createElement("option");
     opt.textContent = list[i];
@@ -105,15 +108,17 @@ function clearOptions(selectElement) {
 
 
 
-
-
 initialLoad(breedList);
 
 
 
 
 
-
+export function updateProgress(progressEvent){
+  console.log("progress",progressEvent);
+  
+  progressBar.style.width = progressEvent.progress * 100 + "%";
+}
 
 
 
@@ -152,11 +157,7 @@ axios.interceptors.response.use(function (response) {
 
 
 
-export function updateProgress(progressEvent){
-  console.log("progress",progressEvent);
-  
-  progressBar.style.width = progressEvent.progress * 100 + "%";
-}
+
 
 
 
@@ -202,9 +203,45 @@ function checkFilter(){
   }
 }
 
+function filterBreeds (breeds, filter) {
+  console.log(filter)
+  filter = filter.toLowerCase();
+  console.log(filter)
+  if (!filter){
+    return breeds;
+  }
+  let list = [];
+  // console.log(breeds)
+  breeds.forEach((breed) => {
+    let temperaments = [];
+    if (breed.temperament){
+      const myArray = breed.temperament.split(", ")
+      temperaments.push(myArray);
+      // console.log(temperaments)
+      for (let i = 0; i < temperaments[0].length; i++){
+        console.log(i)
+        let currentTemperament = temperaments[0][i].toLowerCase();
+        // console.log(currentTemperament)
+        // console.log(currentTemperament == filter)
+        if (currentTemperament == filter){
+          list.push(breed)
+          break;
+        }
+      }
+    }
+  });
+  console.log(list)
+  return list;
+}
+
 temperamentSelect.addEventListener('change', (event) => {
   if (temperamentSelect.childNodes){
     console.log("change")
+    console.log(event.target.value)
+    let filteredList = filterBreeds(breedList, event.target.value)
+    console.log(filteredList)
+    clearOptions(breedSelect);
+    loadBreedDropdown(getBreedNames(filteredList));
   }else{
     console.log("empty")
   }
