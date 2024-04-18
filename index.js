@@ -204,9 +204,9 @@ function checkFilter(){
 }
 
 function filterBreeds (breeds, filter) {
-  console.log(filter)
+  // console.log(filter)
   filter = filter.toLowerCase();
-  console.log(filter)
+  // console.log(filter)
   if (!filter){
     return breeds;
   }
