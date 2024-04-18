@@ -90,6 +90,10 @@ body {
 #filterSelect {
   margin-left: auto;
   margin-right: auto;
-  width: 350px;
+  width: 300px;
   /* border: 5px solid wheat; */
+}
+
+#temperamentSelect {
+  display: none
 }

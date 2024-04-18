@@ -13,6 +13,10 @@ const progressBar = document.getElementById("progressBar");
 // The get favourites button element.
 const getFavouritesBtn = document.getElementById("getFavouritesBtn");
 
+const temperamentSelect = document.getElementById("temperamentSelect");
+
+const filterSelect = document.getElementById("filterSelect");
+
 // Step 0: Store your API key here for reference and easy access.
 // Dog
 // const API_KEY = "live_7O7rwERaaoi9qf9CLXmxrM9TVb3C7HNw99NUlaaIBCvMdpoDRMBbQIspORBLMupw";
@@ -44,7 +48,7 @@ let apiSelected = 'dog';
 // }
 
 Api.setApi(apiSelected);
-let breedList;
+let breedList = await Api.getBreeds();
 let temperamentList;
 
 /**
@@ -65,17 +69,13 @@ let temperamentList;
 
 async function initialLoad(breeds) {
   
-  breeds = await Api.getBreeds();
-  temperamentList = getTemperaments (breeds);
-  
   console.log(breeds)
   
   clearOptions(breedSelect);
-
   //filter dropdown
 
-  loadDropdown(getBreedNames(breeds));
-
+  loadBreedDropdown(getBreedNames(breeds));
+  console.log('dropdown', breedSelect)
 
   Carousel.prepareCarousel()
 }
@@ -105,7 +105,7 @@ function getTemperaments (breeds) {
   return list;
 }
 
-function loadDropdown (list){
+function loadBreedDropdown (list){
   list.forEach((item) => {
     const opt = document.createElement("option");
     opt.value = item.value;
@@ -113,6 +113,15 @@ function loadDropdown (list){
 
     breedSelect.appendChild(opt);
   });
+}
+
+function loadTemperamentDropdown (list){
+  for (let i = 0; i < list.length; i++){
+    const opt = document.createElement("option");
+    opt.textContent = list[i];
+    temperamentSelect.appendChild(opt);
+  }
+  console.log(list)
 }
 
 
@@ -377,3 +386,31 @@ speciesSelect.addEventListener('click', ({ target }) => { // handler fires on ro
     initialLoad(breedList);
   }
 });
+
+filterSelect.addEventListener('click', (event) => {
+  const buttonNone = document.getElementById("none");
+  const buttonTemperament = document.getElementById("temperament");
+  if (buttonNone.checked){
+    console.log('none checked')
+    temperamentSelect.style.display = "none"
+    clearOptions(temperamentSelect);
+    console.log(temperamentSelect);
+    // Clear filter function
+  }else{
+    console.log('temperament checked')
+    console.log(temperamentSelect.style)
+    temperamentSelect.style.display = "block"
+    loadTemperamentDropdown(getTemperaments (breedList));
+    console.log(temperamentSelect);
+    // Add filter function
+  }
+})
+
+temperamentSelect.addEventListener('change', (event) => {
+  if (temperamentSelect.childNodes){
+    console.log("change")
+  }else{
+    console.log("empty")
+  }
+});
+

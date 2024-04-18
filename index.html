@@ -55,19 +55,25 @@
     <h2 class="w-100 text-center mt-4">Filter</h2>
     <div class="form-group row" id="filterSelect">
       <div class="form-check form-select-lg my-1 mx-auto col-sm-1">
-        <input class="form-check-input" type="radio" name="filter" id="temperament" checked>
-        <label class="form-check-label" for="temperament">
-          Temperament
-        </label>
-      </div>
-      <div class="form-check form-select-lg my-1 mx-auto col-sm-1">
-        <input class="form-check-input" type="radio" name="filter" id="none">
+        <input class="form-check-input" type="radio" name="filter" id="none" checked>
         <label class="form-check-label" for="none">
           None
         </label>
       </div>
-      
+      <div class="form-check form-select-lg my-1 mx-auto col-sm-1">
+        <input class="form-check-input" type="radio" name="filter" id="temperament" >
+        <label class="form-check-label" for="temperament">
+          Temperament
+        </label>
+      </div>
     </div>
+    <select
+      id="temperamentSelect"
+      style="width: 300px;"
+      class="form-select form-select-lg my-1 mx-auto"
+      aria-label="form-select-lg"
+    >
+    </select>
     
 
     <!-- Breed Selection -->
@@ -84,6 +90,8 @@
         Get Favorites
       </button>
     </div>
+
+    
 
     <!-- Carousel -->
     <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
